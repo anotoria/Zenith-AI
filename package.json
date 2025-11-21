@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@google/genai": "^1.30.0",
+    "@supabase/supabase-js": "^2.84.0",
     "autoprefixer": "^10.4.22",
     "lovable-tagger": "^1.1.11",
     "react": "^19.2.0",
