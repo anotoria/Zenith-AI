@@ -1,3 +1,4 @@
+/// <reference lib="deno.ns" />
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
@@ -32,13 +33,14 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash-image',
+        model: 'google/gemini-2.5-flash-image-preview',
         messages: [
           {
             role: 'user',
             content: `Create a ${type || 'photorealistic'} style image: ${prompt}`
           }
         ],
+        modalities: ['image', 'text'],
       }),
     });
 
@@ -68,15 +70,23 @@ serve(async (req) => {
 
     const data = await response.json();
     
-    // Extract base64 image from response
-    const imageData = data.choices[0].message.content;
+    // Extract base64 image from Nano banana response
+    const imageUrl = data.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+    
+    if (!imageUrl) {
+      console.error('[generate-image] No image in response');
+      return new Response(
+        JSON.stringify({ error: 'Nenhuma imagem gerada' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
     
     console.log('[generate-image] Image generated successfully');
 
     return new Response(
       JSON.stringify({
         id: `img-${Date.now()}`,
-        url: `data:image/png;base64,${imageData}`,
+        url: imageUrl,
         prompt
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
