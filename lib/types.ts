@@ -42,6 +42,19 @@ export interface ProfileWithPermissions extends Profile {
   roles?: UserRole[];
 }
 
+// Custom types for UI components
+export interface ScheduledPostUI {
+  id: string;
+  articleId?: string;
+  platform: PlatformType;
+  content: string;
+  scheduledAt: Date;
+  status: PostStatus;
+  imageUrl?: string;
+  mediaType?: MediaType;
+  errorMessage?: string;
+}
+
 // View types
 export type View = 
   | 'dashboard' 

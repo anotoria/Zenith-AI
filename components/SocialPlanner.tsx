@@ -1,16 +1,16 @@
 
 import React, { useState, useMemo } from 'react';
-import type { ScheduledPost } from '../types';
+import type { ScheduledPostUI, PlatformType, PostStatus } from '@/lib/types';
 
 type PlannerView = 'calendar' | 'list';
 type CalendarMode = 'month' | 'week';
-type StatusFilter = 'All' | ScheduledPost['status'];
+type StatusFilter = 'All' | PostStatus;
 type TimeFilter = 'All' | 'Month' | 'Week';
 
 interface SocialPlannerProps {
-    posts: ScheduledPost[];
-    onAddPost: (post: ScheduledPost) => void;
-    onUpdatePost: (post: ScheduledPost) => void;
+    posts: ScheduledPostUI[];
+    onAddPost: (post: ScheduledPostUI) => void;
+    onUpdatePost: (post: ScheduledPostUI) => void;
 }
 
 const Modal: React.FC<{ isOpen: boolean; onClose: () => void; title: string; children: React.ReactNode }> = ({ isOpen, onClose, title, children }) => {
@@ -43,12 +43,12 @@ export const SocialPlanner: React.FC<SocialPlannerProps> = ({ posts, onAddPost, 
     const [timeFilter, setTimeFilter] = useState<TimeFilter>('All');
 
     // Form State
-    const [editingPost, setEditingPost] = useState<ScheduledPost | null>(null);
+    const [editingPost, setEditingPost] = useState<ScheduledPostUI | null>(null);
     const [newPostContent, setNewPostContent] = useState('');
     const [newPostDate, setNewPostDate] = useState('');
     const [newPostTime, setNewPostTime] = useState('');
-    const [newPostPlatform, setNewPostPlatform] = useState<'Facebook' | 'Instagram' | 'LinkedIn' | 'TikTok'>('Facebook');
-    const [newPostStatus, setNewPostStatus] = useState<'Scheduled' | 'Published' | 'Draft' | 'Error'>('Scheduled');
+    const [newPostPlatform, setNewPostPlatform] = useState<PlatformType>('Facebook');
+    const [newPostStatus, setNewPostStatus] = useState<PostStatus>('Scheduled');
     // Media State
     const [newPostMediaUrl, setNewPostMediaUrl] = useState('');
     const [newPostMediaType, setNewPostMediaType] = useState<'image' | 'video'>('image');
@@ -144,7 +144,7 @@ export const SocialPlanner: React.FC<SocialPlannerProps> = ({ posts, onAddPost, 
         setIsModalOpen(true);
     };
 
-    const handleOpenEdit = (post: ScheduledPost) => {
+    const handleOpenEdit = (post: ScheduledPostUI) => {
         setEditingPost(post);
         setNewPostContent(post.content);
         setNewPostDate(post.scheduledAt.toISOString().split('T')[0]);
@@ -174,13 +174,13 @@ export const SocialPlanner: React.FC<SocialPlannerProps> = ({ posts, onAddPost, 
         };
 
         if (editingPost) {
-            const updatedPost: ScheduledPost = {
+            const updatedPost: ScheduledPostUI = {
                 ...editingPost,
                 ...commonData,
             };
             onUpdatePost(updatedPost);
         } else {
-            const newPost: ScheduledPost = {
+            const newPost: ScheduledPostUI = {
                 id: `manual-${Date.now()}`,
                 articleId: 'manual',
                 ...commonData,
