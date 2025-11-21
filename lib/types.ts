@@ -38,7 +38,7 @@ export interface TrailModuleWithContent extends TrailModule {
 }
 
 export interface ProfileWithPermissions extends Profile {
-  permissions?: UserPermission;
+  permissions?: UserPermission | null;
   roles?: UserRole[];
 }
 

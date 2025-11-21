@@ -1,6 +1,6 @@
 
 import React from 'react';
-import type { View } from '../App';
+import type { View } from '@/lib/types';
 import type { User } from '../types';
 import { Role } from '../types';
 import { DashboardIcon, ArticleIcon, PlannerIcon, LearningIcon, UsersIcon, SettingsIcon, LogoutIcon, SparklesIcon, MagicWandIcon, LibraryIcon, HistoryIcon } from './icons/Icon';

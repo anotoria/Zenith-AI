@@ -1,6 +1,6 @@
 
 import React from 'react';
-import type { View } from '../App';
+import type { View } from '@/lib/types';
 import { ArticleIcon, PlannerIcon, LearningIcon, SettingsIcon, MagicWandIcon, LibraryIcon, HistoryIcon } from './icons/Icon';
 
 interface DashboardProps {

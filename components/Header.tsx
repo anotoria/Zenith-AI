@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import type { User } from '../types';
-import type { View } from '../App';
+import type { View } from '@/lib/types';
 import { Role } from '../types';
 import { SettingsIcon, LogoutIcon } from './icons/Icon';
 

@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/lib/auth';
-import type { Profile, ProfileWithPermissions } from '@/lib/types';
+import type { ProfileWithPermissions } from '@/lib/types';
 
 export const useProfile = () => {
   const { user } = useAuth();
@@ -23,13 +23,13 @@ export const useProfile = () => {
         .single();
 
       if (error) throw error;
-      return data as ProfileWithPermissions;
+      return data as any;
     },
     enabled: !!user,
   });
 
   const updateProfile = useMutation({
-    mutationFn: async (updates: Partial<Profile>) => {
+    mutationFn: async (updates: any) => {
       if (!user) throw new Error('Not authenticated');
 
       const { data, error } = await supabase
@@ -48,11 +48,12 @@ export const useProfile = () => {
   });
 
   const hasRole = (role: string): boolean => {
-    return profile?.roles?.some(r => r.role === role) ?? false;
+    return profile?.roles?.some((r: any) => r.role === role) ?? false;
   };
 
-  const hasPermission = (permission: keyof ProfileWithPermissions['permissions']): boolean => {
-    return profile?.permissions?.[permission] ?? false;
+  const hasPermission = (permission: string): boolean => {
+    if (!profile?.permissions) return false;
+    return (profile.permissions as any)[permission] ?? false;
   };
 
   return {
