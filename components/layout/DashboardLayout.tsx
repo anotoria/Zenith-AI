@@ -4,6 +4,7 @@ import { AppSidebar } from '@/components/layout/AppSidebar';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { ArticlesPage } from '@/pages/ArticlesPage';
+import { SocialPlannerPage } from '@/pages/SocialPlannerPage';
 
 export const DashboardLayout: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -20,6 +21,7 @@ export const DashboardLayout: React.FC = () => {
             <Routes>
               <Route path="/" element={<DashboardPage />} />
               <Route path="/articles" element={<ArticlesPage />} />
+              <Route path="/planner" element={<SocialPlannerPage />} />
               {/* More routes will be added */}
             </Routes>
           </div>
